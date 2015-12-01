@@ -113,6 +113,7 @@ if (strstr($content, "温度")) {
            break;
           }
         }
+        pg_free_result($result);
         //mysql_close($con);
         $retMsg = "报告大王："."\n"."主人房间的室温为".$tempr."℃，感谢您对主人的关心";
 }else if (strstr($content, "开灯")) {
@@ -135,9 +136,7 @@ if (strstr($content, "温度")) {
  
         $dati = date("h:i:sa");
         //mysql_select_db("app_ulink42", $con);//修改数据库名
- 
         $sql ="UPDATE switch SET timestamp='$dati',state = '0' WHERE ID = '1'";//修改开关状态值
- 
         //if(!mysql_query($sql,$con)){
         if(!pg_query($sql, $con)){
             //die('Error: ' . mysql_error());
@@ -165,4 +164,5 @@ $resultStr = sprintf($retTmp, $fromUserName, $toUserName, time(), $retMsg);
  
 //反馈到微信服务器
 echo $resultStr;
+
 ?>
