@@ -38,6 +38,7 @@ function getPostData() {
 define ( "TOKEN", "arduinoyun" );
  
 if(false == checkSignature()) {
+        echo 'fail to check signature. exit...';
         exit(0);
 }
 //接入时验证接口
