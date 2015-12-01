@@ -3,7 +3,7 @@
     方倍工作室 http://www.cnblogs.com/txw1958/
     CopyRight 2013  www.doucube.com  All Rights Reserved
 */
-define("TOKEN", "pondbay");
+define("TOKEN", "arduinoyun");
 $wechatObj = new wechatCallbackapiTest();
 $wechatObj->valid();
 class wechatCallbackapiTest
