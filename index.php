@@ -5,7 +5,9 @@
 */
 define("TOKEN", "arduinoyun");
 $wechatObj = new wechatCallbackapiTest();
+$wechatObj->valid();
 if (isset($_GET['echostr'])) {
+    echo $_GET['echostr'];
     $wechatObj->valid();
 }else{
     $wechatObj->responseMsg();
