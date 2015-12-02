@@ -7,8 +7,21 @@ class wechatCallbackapiTest
     # This function reads your DATABASE_URL config var and returns a connection
     # string suitable for pg_connect.
     private function pg_conn_string() {
-        extract(parse_url($_ENV["DATABASE_URL"]));
-        return "user=$user password=$pass host=$host dbname=" . substr($path, 1); # <- you may want to add sslmode=require there too
+        //extract(parse_url($_ENV["DATABASE_URL"]));
+        //return "user=$user password=$pass host=$host dbname=" . substr($path, 1); # <- you may want to add sslmode=require there too
+        
+        //create a connection string from the PG database URL and then use it to connect
+        $url=parse_url(getenv("HEROKU_POSTGRESQL_GREEN_URL"));
+        $host = $url["host"];
+        $port = $url["port"];
+        $user = $url["user"];
+        $password = $url["pass"];
+        $dbname = substr($url["path"],1);
+        $connect_string = "host='" . $host . "' ";
+        $connect_string = $connect_string . "port=" . $port . " ";
+        $connect_string = $connect_string . "user='" . $user . "' ";
+        $connect_string = $connect_string . "password='" . $password . "' ";
+        $connect_string = $connect_string . "dbname='" . $dbname . "' ";
     }
     public function responseMsg()
     {
@@ -31,7 +44,7 @@ class wechatCallbackapiTest
             {
                 $msgType = "text";
                 $contentStr1 = date("Y-m-d H:i:s",time());// . pg_conn_string();
-                $contentStr2 = " UTC";//pg_conn_string();
+                $contentStr2 = pg_conn_string();
                 $contentStr = $contentStr1 . $contentStr2;
                 
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
