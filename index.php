@@ -50,6 +50,10 @@ class wechatCallbackapiTest
     
     public function responseMsg()
     {
+        # correct timezone at very beginning
+        if(date_default_timezone_get() != "1Asia/Shanghai") {
+            date_default_timezone_set("Asia/Shanghai");
+        }
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
         if (!empty($postStr)){
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -68,7 +72,7 @@ class wechatCallbackapiTest
             if($keyword == "?")
             {
                 $msgType = "text";
-                $contentStr = date("Y-m-d H:i:s: ",time());
+                $contentStr = date("Y-m-d H:i:s: BeijingTime: ",time());
                 $contentStr .= self::pg_get_temperature();
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 echo $resultStr;
