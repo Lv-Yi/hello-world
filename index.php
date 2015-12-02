@@ -45,7 +45,7 @@ class wechatCallbackapiTest
         }
         pg_free_result($result);
         pg_close($con);
-        
+        return $retMsg;
     }
     
     public function responseMsg()
