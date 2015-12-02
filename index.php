@@ -26,7 +26,8 @@ class wechatCallbackapiTest
         
         return $connect_string;
         */
-        return getenv("DATABASE_URL");
+        //return getenv("DATABASE_URL");
+        return " pg_conn_string()";
     }
     public function responseMsg()
     {
