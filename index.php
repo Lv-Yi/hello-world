@@ -11,7 +11,7 @@ class wechatCallbackapiTest
         //return "user=$user password=$pass host=$host dbname=" . substr($path, 1); # <- you may want to add sslmode=require there too
         
         //create a connection string from the PG database URL and then use it to connect
-        $url=parse_url(getenv("HEROKU_POSTGRESQL_GREEN_URL"));
+        $url=parse_url(getenv("DATABASE_URL"));
         $host = $url["host"];
         $port = $url["port"];
         $user = $url["user"];
