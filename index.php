@@ -4,6 +4,12 @@ $wechatObj = new wechatCallbackapiTest();
 $wechatObj->responseMsg();
 class wechatCallbackapiTest
 {
+    # This function reads your DATABASE_URL config var and returns a connection
+    # string suitable for pg_connect.
+    private function pg_conn_string() {
+        extract(parse_url($_ENV["DATABASE_URL"]));
+        return "user=$user password=$pass host=$host dbname=" . substr($path, 1); # <- you may want to add sslmode=require there too
+    }
     public function responseMsg()
     {
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
