@@ -26,6 +26,25 @@ class wechatCallbackapiTest
         
         return $connect_string;*/
     }
+    
+    # Get temperature value from postgresql db.
+    private function pg_get_temperature() {
+        # connect to postgresql db
+        $con = pg_connect(self::pg_conn_string());
+        if ($con) {
+            $result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
+            while($arr = pg_fetch_array($result)){
+                if ($arr['ID'] == 1) {
+                    $tempr = $arr['data'];
+                    break;
+                }
+            }
+            $retMsg = "报告大王："."\n"."主人房间的室温为".$tempr."℃，感谢您对主人的关心";
+        }
+        pg_free_result($result);
+        pg_close($con);
+    }
+    
     public function responseMsg()
     {
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
@@ -46,10 +65,8 @@ class wechatCallbackapiTest
             if($keyword == "?")
             {
                 $msgType = "text";
-                $contentStr1 = date("Y-m-d H:i:s",time());// . pg_conn_string();
-                $contentStr2 = self::pg_conn_string();
-                $contentStr = $contentStr1 . $contentStr2;
-                
+                $contentStr = date("Y-m-d H:i:s: ",time());
+                $contentStr .= self::pg_get_temperature();
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 echo $resultStr;
             }
