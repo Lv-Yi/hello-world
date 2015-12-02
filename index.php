@@ -50,7 +50,7 @@ class wechatCallbackapiTest
             {
                 $msgType = "text";
                 $contentStr1 = date("Y-m-d H:i:s",time());// . pg_conn_string();
-                $contentStr2 = pg_conn_string();
+                $contentStr2 = " local pg_conn_string()";
                 $contentStr = $contentStr1 . $contentStr2;
                 
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
