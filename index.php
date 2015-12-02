@@ -22,6 +22,7 @@ class wechatCallbackapiTest
         $connect_string = $connect_string . "user='" . $user . "' ";
         $connect_string = $connect_string . "password='" . $password . "' ";
         $connect_string = $connect_string . "dbname='" . $dbname . "' ";
+        return $connect_string;
     }
     public function responseMsg()
     {
