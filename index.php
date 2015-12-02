@@ -40,9 +40,12 @@ class wechatCallbackapiTest
                 }
             }
             $retMsg = "报告大王："."\n"."主人房间的室温为".$tempr."℃，感谢您对主人的关心";
+        } else {
+            $retMsg = "出错了(001)！！！";
         }
         pg_free_result($result);
         pg_close($con);
+        
     }
     
     public function responseMsg()
