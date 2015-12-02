@@ -34,14 +34,13 @@ class wechatCallbackapiTest
         if ($con) {
             $result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
             while($arr = pg_fetch_array($result)){
-                //if ($arr['ID'] == 1) {
-                if (1) {
+                if ($arr['id'] == 1) {
+                //if (1) {
                     $tempr = $arr['data'];
                     $retMsg .= "报告大王："."\n"."主人房间的室温为".$tempr."℃，感谢您对主人的关心";
                     //break;
                 }
             }
-            
         } else {
             $retMsg = "出错了(001)！！！";
         }
