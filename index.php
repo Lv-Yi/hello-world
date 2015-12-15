@@ -48,6 +48,58 @@ class wechatCallbackapiTest
         return $retMsg;
     }
     
+    # Get existing wx access token stored in postgresql and check if expire
+    private function pg_get_wx_config_all() {
+        $con = pg_connect(self::pg_conn_string());
+        if ($con) {
+            $result = pg_query($con, "SELECT * FROM wx_config");
+            if ($result) {
+                while($arr = pg_fetch_array($result)){
+                    if ($arr['id'] == 1) {
+                        // only id = 1 row is valid record.
+                        $ret = $arr;
+                        break;
+                    }
+                }
+            } else {
+                echo '数据库查询出错';
+                exit;
+            }
+         } else {
+            echo '数据库连接出错';
+            exit;
+        }
+        pg_free_result($result);
+        pg_close($con);
+        return $ret;
+    }
+    
+    # Request a new wx access token, and store into db
+    # input: $arr - the 
+    private function get_new_wx_access_token($arr) {
+        //$con = pg_connect(self::pg_conn_string());
+        if ()
+    }
+    
+    # Get valid wx access token
+    private function get_wx_access_token($arr) {
+        $wx_at = '';
+        if ($arr) {
+            if ($arr['id'] == 1) {
+                // only id = 1 record is valid
+                if ($arr['access_token_timestamp'] + $arr['access_token_expires_in'] > time()) {
+                    // stored access_token is still valid
+                    $wx_at = $arr['access_token'];
+                } else {
+                    // need to request a new access token
+                    $wx_at = self::get_new_wx_access_token();
+                }
+            }
+        }
+        
+        return $wx_at;
+    }
+    
     public function responseMsg()
     {
         # correct timezone at very beginning
@@ -68,14 +120,22 @@ class wechatCallbackapiTest
                         <Content><![CDATA[%s]]></Content>
                         <FuncFlag>0</FuncFlag>
                         </xml>";
+            $contentStr = date("Y-m-d H:i:s: ",time());
+            $msgType = "text";
             if($keyword == "?")
             {
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $contentStr .= self::pg_get_temperature();
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                echo $resultStr;
+            } else if ($keyword == "~")
+            {
+                $msgType = "text";
+                $all_config = self::pg_get_wx_config_all();
+                $contentStr = date("Y-m-d H:i:s: ",time());
+                $contentStr .= $all_config['wx_attr_name'];
             }
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+            echo $resultStr;
         }else{
             echo "";
             exit;
