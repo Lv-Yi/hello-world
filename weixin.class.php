@@ -45,6 +45,32 @@ class wechatCallbackapiTest
         return $retMsg;
     }
     
+    # Get existing wx access token stored in postgresql and check if expire
+    private function pg_get_wx_config_all() {
+        $con = pg_connect(self::pg_conn_string());
+        if ($con) {
+            $result = pg_query($con, "SELECT * FROM wx_config");
+            if ($result) {
+                while($arr = pg_fetch_array($result)){
+                    if ($arr['id'] == 1) {
+                        // only id = 1 row is valid record.
+                        $ret = $arr;
+                        break;
+                    }
+                }
+            } else {
+                echo '数据库查询出错';
+                exit;
+            }
+         } else {
+            echo '数据库连接出错';
+            exit;
+        }
+        pg_free_result($result);
+        pg_close($con);
+        return $ret;
+    }
+    
     public function responseMsg()
     {
         # correct timezone at very beginning
@@ -70,9 +96,16 @@ class wechatCallbackapiTest
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $contentStr .= self::pg_get_temperature();
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                echo $resultStr;
+            } else if ($keyword == "#")
+            {
+                $msgType = "text";
+                $contentStr = date("Y-m-d H:i:s: ",time());
+                $arr_config = self::pg_get_wx_config_all();
+                $contentStr .= $arr_config['wx_attr_name'];
             }
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+            echo $resultStr;
+            return;
         }else{
             echo "";
             exit;
