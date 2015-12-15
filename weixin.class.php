@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 class wechatCallbackapiTest
 {
     # This function reads your DATABASE_URL config var and returns a connection
@@ -33,12 +33,12 @@ class wechatCallbackapiTest
             while($arr = pg_fetch_array($result)){
                 if ($arr['id'] == 1) {
                     $tempr = $arr['data'];
-                    $retMsg .= "±¨¸æ´óÍõ£º"."\n"."Ö÷ÈË·¿¼äµÄÊÒÎÂÎª".$tempr."¡æ£¬¸ÐÐ»Äú¶ÔÖ÷ÈËµÄ¹ØÐÄ";
+                    $retMsg .= "æŠ¥å‘Šå¤§çŽ‹ï¼š"."\n"."ä¸»äººæˆ¿é—´çš„å®¤æ¸©ä¸º".$tempr."â„ƒï¼Œæ„Ÿè°¢æ‚¨å¯¹ä¸»äººçš„å…³å¿ƒ";
                     break;
                 }
             }
         } else {
-            $retMsg = "³ö´íÁË(001)£¡£¡£¡";
+            $retMsg = "å‡ºé”™äº†(001)ï¼ï¼ï¼";
         }
         pg_free_result($result);
         pg_close($con);
@@ -71,13 +71,11 @@ class wechatCallbackapiTest
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $contentStr .= self::pg_get_temperature();
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                //echo $resultStr;
-                return $resultStr;
+                echo $resultStr;
             }
         }else{
-            //echo "";
-            return "";
-            //exit;
+            echo "";
+            exit;
         }
     }
 }
