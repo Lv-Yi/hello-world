@@ -101,7 +101,7 @@ class wechatCallbackapiTest
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $arr_config = self::pg_get_wx_config_all();
-                $contentStr .= $arr_config['wx_attr_name'];
+                $contentStr .= $arr_config['id'];
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
