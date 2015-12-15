@@ -101,7 +101,9 @@ class wechatCallbackapiTest
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $arr_config = self::pg_get_wx_config_all();
-                $contentStr .= $arr_config['id'];
+                $contentStr .= "id: ". $arr_config['id']. "; appID: " . $arr_config['appID'];
+                $contentStr .= "; access_token: " . $arr_config['access_token_timestamp'];
+                $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
