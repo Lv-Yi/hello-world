@@ -71,11 +71,13 @@ class wechatCallbackapiTest
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $contentStr .= self::pg_get_temperature();
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                echo $resultStr;
+                //echo $resultStr;
+                return $resultStr;
             }
         }else{
-            echo "";
-            exit;
+            //echo "";
+            return "";
+            //exit;
         }
     }
 }
