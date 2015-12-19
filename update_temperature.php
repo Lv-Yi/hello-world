@@ -3,7 +3,6 @@
     # This function reads your DATABASE_URL config var and returns a connection
     # string suitable for pg_connect.
     function pg_conn_string() {
-        echo $_ENV["DATABASE_URL"];
         extract(parse_url($_ENV["DATABASE_URL"]));
         return "host=$host port=$port user=$user password=$pass dbname=" . substr($path, 1); # <- you may want to add sslmode=require there too
         
@@ -28,6 +27,7 @@
     function pg_get_temperature() {
         # connect to postgresql db
         $con = pg_connect(self::pg_conn_string());
+        return $con;
         if ($con) {
             $result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
             while($arr = pg_fetch_array($result)){
