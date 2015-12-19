@@ -49,7 +49,7 @@
         # connect to postgresql db
         $con = pg_connect(self::pg_conn_string());
         if ($con) {
-        	$result = pg_query($con, "SELECT * FROM sensor where id = $id") or die('Query failed: ' . pg_last_error());;
+        	$result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
             while($arr = pg_fetch_array($result)){
                 if ($arr['id'] == $id) {
                     $tempr = $arr['data'];
