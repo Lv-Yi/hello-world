@@ -47,11 +47,11 @@
 
     # Get temperature value from postgresql db.
     function pg_set_temperature($id, $cur_temperature) {
-        echo "calling pg_set_temperature()...";
         # connect to postgresql db
-        $con = pg_connect(self::pg_conn_string());
+        //$con = pg_connect(self::pg_conn_string());
+        $con = pg_connect(pg_conn_string());
         echo $con;
-        return $con;
+        //return $con;
         if ($con) {
         	$result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
             while($arr = pg_fetch_array($result)){
@@ -76,9 +76,10 @@
 if ($_GET['data'] && $_GET['id'] && ($_GET['token'] == "arduinoyun")) {//可以改token,这相当于密码，在Arduino端改成相应的值即可
 	$data = $_GET['data'];
 	$id = $_GET['id'];
-	//$retMsg = pg_set_temperature($id, $data);
-    $retMsg = "data = " . $data;
-    $retMsg .= ", id = " . $id;
+	$retMsg = pg_set_temperature($id, $data);
+    //$retMsg = "data = " . $data;
+    //$retMsg .= ", id = " . $id;
+
     echo $retMsg;
 }else{
 	echo "Permission Denied";//请求中没有type或data或token或token错误时，显示Permission Denied
