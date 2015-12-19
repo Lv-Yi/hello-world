@@ -26,8 +26,7 @@
     # Get temperature value from postgresql db.
     function pg_get_temperature() {
         # connect to postgresql db
-        $con = pg_connect(self::pg_conn_string());
-        return $con;
+        $con = pg_connect(pg_conn_string());
         if ($con) {
             $result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
             while($arr = pg_fetch_array($result)){
@@ -48,12 +47,9 @@
     # Get temperature value from postgresql db.
     function pg_set_temperature($id, $cur_temperature) {
         # connect to postgresql db
-        //$con = pg_connect(self::pg_conn_string());
         $con = pg_connect(pg_conn_string());
-        echo $con;
-        //return $con;
         if ($con) {
-        	$result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
+        	$result = pg_query($con, "SELECT * FROM sensor where id = $id") or die('Query failed: ' . pg_last_error());;
             while($arr = pg_fetch_array($result)){
                 if ($arr['id'] == $id) {
                     $tempr = $arr['data'];
@@ -77,9 +73,6 @@ if ($_GET['data'] && $_GET['id'] && ($_GET['token'] == "arduinoyun")) {//可以�
 	$data = $_GET['data'];
 	$id = $_GET['id'];
 	$retMsg = pg_set_temperature($id, $data);
-    //$retMsg = "data = " . $data;
-    //$retMsg .= ", id = " . $id;
-
     echo $retMsg;
 }else{
 	echo "Permission Denied";//请求中没有type或data或token或token错误时，显示Permission Denied
