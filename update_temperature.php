@@ -2,7 +2,7 @@
 
     # This function reads your DATABASE_URL config var and returns a connection
     # string suitable for pg_connect.
-    private function pg_conn_string() {
+    function pg_conn_string() {
         extract(parse_url($_ENV["DATABASE_URL"]));
         return "host=$host port=$port user=$user password=$pass dbname=" . substr($path, 1); # <- you may want to add sslmode=require there too
         
@@ -24,7 +24,7 @@
     }
 
     # Get temperature value from postgresql db.
-    private function pg_get_temperature() {
+    function pg_get_temperature() {
         # connect to postgresql db
         $con = pg_connect(self::pg_conn_string());
         if ($con) {
@@ -45,7 +45,7 @@
     }
 
     # Get temperature value from postgresql db.
-    private function pg_set_temperature($id, $cur_temperature) {
+    function pg_set_temperature($id, $cur_temperature) {
         # connect to postgresql db
         $con = pg_connect(self::pg_conn_string());
         if ($con) {
@@ -72,7 +72,7 @@
 if ($_GET['data'] && $_GET['id'] && ($_GET['token'] == "arduinoyun")) {//可以改token,这相当于密码，在Arduino端改成相应的值即可
 	$data = $_GET['data'];
 	$id = $_GET['id'];
-	echo self::pg_set_temperature(1, 7);
+	echo pg_set_temperature($id, $data);
 }else{
 	echo "Permission Denied";//请求中没有type或data或token或token错误时，显示Permission Denied
 }
