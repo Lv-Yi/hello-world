@@ -46,8 +46,10 @@
 
     # Get temperature value from postgresql db.
     function pg_set_temperature($id, $cur_temperature) {
+        echo "calling pg_set_temperature()...";
         # connect to postgresql db
         $con = pg_connect(self::pg_conn_string());
+        echo $con;
         return $con;
         if ($con) {
         	$result = pg_query($con, "SELECT * FROM sensor") or die('Query failed: ' . pg_last_error());;
