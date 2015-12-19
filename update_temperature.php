@@ -69,11 +69,12 @@
         return $retMsg;
     }
 
-if ($_GET['data'] && ($_GET['token'] == "arduinoyun")) {//可以改token,这相当于密码，在Arduino端改成相应的值即可
+if ($_GET['data'] && $_GET['id'] && ($_GET['token'] == "arduinoyun")) {//可以改token,这相当于密码，在Arduino端改成相应的值即可
 	$data = $_GET['data'];
-	//$id = $_GET['id'];
+	$id = $_GET['id'];
 	//$retMsg = pg_set_temperature(1, $data);
     $retMsg = "data = " . $data;
+    $retMsg .= ", id = " . $id;
     echo $retMsg;
 }else{
 	echo "Permission Denied";//请求中没有type或data或token或token错误时，显示Permission Denied
