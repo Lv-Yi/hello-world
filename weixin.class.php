@@ -59,11 +59,11 @@ class wechatCallbackapiTest
                     }
                 }
             } else {
-                echo '数据库查询出错';
+                echo '出错了(002)！！！';
                 exit;
             }
          } else {
-            echo '数据库连接出错';
+            echo '出错了(003)！！！';
             exit;
         }
         pg_free_result($result);
