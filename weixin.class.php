@@ -91,6 +91,16 @@ class wechatCallbackapiTest
                         <Content><![CDATA[%s]]></Content>
                         <FuncFlag>0</FuncFlag>
                         </xml>";
+            $picRpl = "<xml>
+                       <ToUserName><![CDATA[%s]]></ToUserName>
+                       <FromUserName><![CDATA[%s]]></FromUserName>
+                       <CreateTime>%s</CreateTime>
+                       <MsgType><![CDATA[%s]]></MsgType>
+                       <Image>
+                       <MediaId><![CDATA[%s]]></MediaId>
+                       </Image>
+                       </xml>";
+
             if($keyword == "?")
             {
                 $msgType = "text";
@@ -105,6 +115,19 @@ class wechatCallbackapiTest
                 $contentStr .= "; access_token: " . $arr_config['access_token'];
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
+            } else if ($keyword == "~")
+            {
+                $msgType = "image";
+                //$contentStr = date("Y-m-d H:i:s: ",time());
+                //$arr_config = self::pg_get_wx_config_all();
+                //$contentStr .= "id: ". $arr_config['id']. "; appID: " . $arr_config['appID'];
+                //$contentStr .= "; access_token: " . $arr_config['access_token'];
+                //$contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
+                //$contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
+                $textTpl = $picRpl;
+                $media_id = "msBC3R-gpoajjxMncY8s1Ryw26xqTB467RWlR3ta6cGFbZj-kU1UPBR4-hpLK7cJ";
+                $contentStr = $media_id;
+
             }
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
