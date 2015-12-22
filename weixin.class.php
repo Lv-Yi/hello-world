@@ -144,7 +144,7 @@ class wechatCallbackapiTest
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 //$contentStr .= self::pg_get_temperature();
-                $contentStr .= "http://10.231.217.14:8138/video";
+                $contentStr .= "http://10.231.217.14:8138/";
             } 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
