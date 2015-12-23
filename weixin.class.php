@@ -70,6 +70,24 @@ class wechatCallbackapiTest
         pg_close($con);
         return $ret;
     }
+
+    # Get a valid access_token
+    # If the stored access_token is still valid, use it; Or request a new one and store in DB.
+    private function pg_get_wx_access_token() {
+        $con = pg_connect(self::pg_conn_string());
+        // TODO :
+    }
+
+    # Upload pic to weixin and get its media_id; Store the id into DB.
+    # Note: the URL of the pic should be accessible from weixin!
+    private function pg_upload_wx_pic() {
+        // TODO: 
+    }
+
+    # Get IP:Port address for given id.
+    private function pg_get_url() {
+        // TODO: get video url per id
+    }
     
     public function responseMsg()
     {
@@ -91,6 +109,16 @@ class wechatCallbackapiTest
                         <Content><![CDATA[%s]]></Content>
                         <FuncFlag>0</FuncFlag>
                         </xml>";
+            $picRpl = "<xml>
+                       <ToUserName><![CDATA[%s]]></ToUserName>
+                       <FromUserName><![CDATA[%s]]></FromUserName>
+                       <CreateTime>%s</CreateTime>
+                       <MsgType><![CDATA[%s]]></MsgType>
+                       <Image>
+                       <MediaId><![CDATA[%s]]></MediaId>
+                       </Image>
+                       </xml>";
+
             if($keyword == "?")
             {
                 $msgType = "text";
@@ -105,7 +133,21 @@ class wechatCallbackapiTest
                 $contentStr .= "; access_token: " . $arr_config['access_token'];
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
-            }
+                $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
+            } else if ($keyword == "~")
+            {
+                $msgType = "image";
+                $textTpl = $picRpl;
+                $media_id = "msBC3R-gpoajjxMncY8s1Ryw26xqTB467RWlR3ta6cGFbZj-kU1UPBR4-hpLK7cJ";
+                $contentStr = $media_id;
+            } else if ($keyword == "!")
+            {
+                $msgType = "text";
+                $contentStr = date("Y-m-d H:i:s: ",time());
+                $arr_config = self::pg_get_wx_config_all();
+                //$contentStr .= self::pg_get_temperature();
+                $contentStr .= "http://".$arr_config['host_ext_ip'].":8112/";
+            } 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
             return;
