@@ -133,6 +133,7 @@ class wechatCallbackapiTest
                 $contentStr .= "; access_token: " . $arr_config['access_token'];
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
+                $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
             } else if ($keyword == "~")
             {
                 $msgType = "image";
@@ -143,8 +144,9 @@ class wechatCallbackapiTest
             {
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
+                $arr_config = self::pg_get_wx_config_all();
                 //$contentStr .= self::pg_get_temperature();
-                $contentStr .= "http://10.231.217.14:8138/";
+                $contentStr .= "http://".$arr_config['host_ext_ip'].":8112/";
             } 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
