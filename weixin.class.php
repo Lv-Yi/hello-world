@@ -135,7 +135,7 @@ class wechatCallbackapiTest
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
                 $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
                 $contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
-                if ($arr_config['is_at_expired'] == TRUE) {
+                if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired";
                 } else {
                     $contentStr .= "; A.T is not expired";
