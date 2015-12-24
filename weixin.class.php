@@ -129,11 +129,12 @@ class wechatCallbackapiTest
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $arr_config = self::pg_get_wx_config_all();
-                $contentStr .= "id: ". $arr_config['id']. "; appID: " . $arr_config['appID'];
+                $contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
                 $contentStr .= "; access_token: " . $arr_config['access_token'];
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
                 $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
+
             } else if ($keyword == "~")
             {
                 $msgType = "image";
