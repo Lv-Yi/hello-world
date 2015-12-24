@@ -49,7 +49,7 @@ class wechatCallbackapiTest
     private function pg_get_wx_config_all() {
         $con = pg_connect(self::pg_conn_string());
         if ($con) {
-            $result = pg_query($con, "SELECT * FROM wx_config");
+            $result = pg_query($con, "select *, extract(epoch from (now()-access_token_timestamp)) >= (access_token_expires_in - 30) as is_at_expired from wx_config");
             if ($result) {
                 while($arr = pg_fetch_array($result)){
                     if ($arr['id'] == 1) {
@@ -134,6 +134,10 @@ class wechatCallbackapiTest
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
                 $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
+                $contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
+
+                # check wx access_token timestamp
+                //if (self::isWXAccessTokenExpire()) {}
 
             } else if ($keyword == "~")
             {
