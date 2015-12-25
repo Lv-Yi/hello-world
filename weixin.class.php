@@ -1,6 +1,9 @@
 ﻿<?php
 class wechatCallbackapiTest
 {
+    # constent var
+    const wx_url_req_new_at = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'; //&appid=APPID&secret=APPSECRET';
+
     # This function reads your DATABASE_URL config var and returns a connection
     # string suitable for pg_connect.
     private function pg_conn_string() {
@@ -71,11 +74,36 @@ class wechatCallbackapiTest
         return $ret;
     }
 
+    # CURL get HTTPS content
+    private function curl_get_https($https_url) {
+        // get https content by curl
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $https_url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $info = curl_exec($ch);
+        // 关闭cURL资源，并且释放系统资源
+        curl_close($ch);
+        return $info;
+    }
+
     # Get a valid access_token
     # If the stored access_token is still valid, use it; Or request a new one and store in DB.
     private function pg_get_wx_access_token() {
-        $con = pg_connect(self::pg_conn_string());
-        // TODO :
+        $contentStr = date("Y-m-d H:i:s: ",time());
+        $arr_config = self::pg_get_wx_config_all();
+        //$contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
+        //$contentStr .= "; access_token: " . $arr_config['access_token'];
+        //$contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
+        //$contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
+        //$contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
+        //$contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
+        if ($arr_config['is_at_expired'] == 't') {
+            // at expired, get a new one
+            $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']));   //&appid=APPID&secret=APPSECRET';
+        } else {
+            $ret = $arr_config['access_token'];
+        }
     }
 
     # Upload pic to weixin and get its media_id; Store the id into DB.
@@ -136,9 +164,10 @@ class wechatCallbackapiTest
                 $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
                 $contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
                 if ($arr_config['is_at_expired'] == 't') {
-                    $contentStr .= "; A.T expired";
+                    $contentStr .= "; A.T expired!";
+                    $contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
                 } else {
-                    $contentStr .= "; A.T is not expired";
+                    $contentStr .= "; A.T is not expired.";
                 }
 
                 # check wx access_token timestamp
