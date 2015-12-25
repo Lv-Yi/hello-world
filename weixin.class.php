@@ -112,10 +112,10 @@ class wechatCallbackapiTest
                     //return $ret;
                     $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $ret['app_id'] . '&secret=' . $ret['app_secret']));   //&appid=APPID&secret=APPSECRET';
                     if (!array_key_exists("errcode", $at_resp)) {
-                        $ret = $at_resp->{'expires_in'};
-                        return $ret;
+                        //$ret = $at_resp->{'expires_in'};
+                        //return $ret;
                         // got new access token
-                        $result1 = pg_query($con, "UPDATE wx_config SET access_token=" . $at_resp->{'access_token'} . ", access_token_timestamp=now(), access_token_expires_in=" . $at_resp->{'expires_in'} . " WHERE id=1");
+                        $result1 = pg_query($con, "UPDATE wx_config SET access_token='" . $at_resp->{'access_token'} . "', access_token_timestamp=now(), access_token_expires_in=" . $at_resp->{'expires_in'} . " WHERE id=1");
                         if ($result1) {
                             // new a.t. saved to db
                             $ret = $at_resp->{'access_token'};
