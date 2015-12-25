@@ -91,7 +91,7 @@ class wechatCallbackapiTest
     # CURL get HTTP content
     private function curl_get_http($http_url) {
         // get http content by curl
-        $info = "http_url: " . $http_url;        return $info;
+        //$info = "http_url: " . $http_url;        return $info;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $http_url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
