@@ -88,6 +88,19 @@ class wechatCallbackapiTest
         return $info;
     }
 
+    # CURL get HTTPS content
+    private function curl_get_http($http_url) {
+        // get https content by curl
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $http_url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $info = curl_exec($ch);
+        // 关闭cURL资源，并且释放系统资源
+        curl_close($ch);
+        return $info;
+    }
+
     # Get a valid access_token
     # If the stored access_token is still valid, use it; Or request a new one and store in DB.
     private function pg_get_wx_access_token() {
@@ -151,7 +164,8 @@ class wechatCallbackapiTest
         if (isset($pic_url)) {
             // input valid
             $access_token = self::pg_get_wx_access_token();
-            $pic_data = array("media" => "@pic_url");
+            $pic_data = array("media" => "@$pic_url");
+            //$pic_data = curl_get_http();
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
             $ret = count($pic_data, COUNT_RECURSIVE);
