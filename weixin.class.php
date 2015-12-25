@@ -153,8 +153,8 @@ class wechatCallbackapiTest
             $access_token = self::pg_get_wx_access_token();
             $pic_data = array("media" => "@pic_url");
             $url = self::wx_url_upload_temp_pic . "access_token=" . $valid_access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
-            $ret = $url;
-            return $ret;
+            //$ret = $url;
+            //return $ret;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -165,6 +165,8 @@ class wechatCallbackapiTest
             //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             $result = curl_exec($ch);
             curl_close($ch);
+            $ret = $result;
+            return $ret;
             $result = json_decode($result, true);
             //$result->url;//即为上传图片的URL;
             if (array_key_exists("media_id", $result)) {
