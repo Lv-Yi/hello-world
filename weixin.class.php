@@ -107,6 +107,8 @@ class wechatCallbackapiTest
                 // check a.t. expired or not
                 if ($ret['is_at_expired'] == 't') {
                     // at expired, get a new one
+                    $ret = self::wx_url_req_new_at . '&appid=' . $ret['app_id'] . '&secret=' . $ret['app_secret'];
+                    return $ret;
                     $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $ret['app_id'] . '&secret=' . $ret['app_secret']));   //&appid=APPID&secret=APPSECRET';
                     if (!array_key_exists("errcode", $tmp_str)) {
                         // got new access token
@@ -119,6 +121,8 @@ class wechatCallbackapiTest
                             exit;
                         }
                     }
+                    //$access_token = $at_resp['']
+                    $ret .= $at_resp;
                 } else {
                     $ret .= $arr_config['access_token'];
                 }
