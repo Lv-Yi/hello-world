@@ -254,8 +254,8 @@ class wechatCallbackapiTest
             {
                 $msgType = "image";
                 $textTpl = $picRpl;
-                //$media_id = "msBC3R-gpoajjxMncY8s1Ryw26xqTB467RWlR3ta6cGFbZj-kU1UPBR4-hpLK7cJ";
-                $media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $media_id = "sJprBGEVFXyLzTFsnXiGMOCAXijPg8MXuUJFfAe3MKwN2NqXeSvCrY3ZX9ctdgDG";
+                //$media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 $contentStr = $media_id;
             } else if ($keyword == "!")
             {
