@@ -103,10 +103,12 @@ class wechatCallbackapiTest
             $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']));   //&appid=APPID&secret=APPSECRET';
             //if ()
             //$access_token = $at_resp['']
+            $ret = $at_resp;
 
         } else {
             $ret = $arr_config['access_token'];
         }
+        return $ret;
     }
 
     # Upload pic to weixin and get its media_id; Store the id into DB.
@@ -169,10 +171,11 @@ class wechatCallbackapiTest
                 if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired!";
                     //$contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
-                    $tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
+                    //$tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
+                    $tmp1 = self::curl_get_https();
                     $tmp_str = json_decode($tmp1);
                     $contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
-                    //$contentStr .= ", var dump json: " . var_dump($tmp_str);
+                    $contentStr .= ", var dump json: " . var_dump($tmp_str);
                     //$contentStr .= ", json lasterror: " . $json_errors[json_last_error()];
                     //$contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
                     //$contentStr .= json_decode(json)
