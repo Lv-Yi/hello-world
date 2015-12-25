@@ -172,7 +172,7 @@ class wechatCallbackapiTest
                     $tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
                     $tmp_str = json_decode($tmp1);
                     $contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
-                    //$contentStr .= ", errcode json: " . $tmp_str['errcode'];
+                    $contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
                     //$contentStr .= json_decode(json)
                 } else {
                     $contentStr .= "; A.T is not expired.";
