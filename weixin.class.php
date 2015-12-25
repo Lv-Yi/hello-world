@@ -91,8 +91,7 @@ class wechatCallbackapiTest
     # CURL get HTTP content
     private function curl_get_http($http_url) {
         // get http content by curl
-        $info = "http_url: " . $http_url;
-        return $info;
+        //$info = "http_url: " . $http_url;        return $info;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $http_url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -168,8 +167,8 @@ class wechatCallbackapiTest
             // input valid
             $access_token = self::pg_get_wx_access_token();
             //$pic_data = array("media" => "@$pic_url");
-            $pic_data = curl_get_http($pic_url);
-            return $pic_data;
+            $pic_data = self::curl_get_http($pic_url);
+            //return $pic_data;
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
             //$ret = count($pic_data, COUNT_RECURSIVE);
