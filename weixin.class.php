@@ -230,30 +230,13 @@ class wechatCallbackapiTest
                 $contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
                 if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired!";
-                    /*
-                    $tmp1 = self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']);
-                    $tmp_str = json_decode($tmp1);
-                    if (array_key_exists("access_token", $tmp_str)) {
-                        $contentStr .= ", new access_token json: " . $tmp_str->{'access_token'};
-                    }
-                    if (array_key_exists("expires_in", $tmp_str)) {
-                        $contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
-                    }
-                    if (array_key_exists("errcode", $tmp_str)) {
-                        $contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
-                    }*/
                     $contentStr .= " The new a.t. is " . self::pg_get_wx_access_token();
-                    //$contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
-                    //$contentStr .= ", var dump json: " . var_dump($tmp_str);
-                    //$contentStr .= ", json lasterror: " . $json_errors[json_last_error()];
-                    //$contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
-                    //$contentStr .= json_decode(json)
                 } else {
                     $contentStr .= "; A.T is not expired.";
+                    $contentStr .= " Still use the existing A.T. " . self::pg_get_wx_access_token();
                 }
-
-                # check wx access_token timestamp
-                //if (self::isWXAccessTokenExpire()) {}
+                // try to upload pic
+                $contentStr .= ", upload pic url: " . "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
 
             } else if ($keyword == "~")
             {
