@@ -101,6 +101,9 @@ class wechatCallbackapiTest
         if ($arr_config['is_at_expired'] == 't') {
             // at expired, get a new one
             $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']));   //&appid=APPID&secret=APPSECRET';
+            //if ()
+            //$access_token = $at_resp['']
+
         } else {
             $ret = $arr_config['access_token'];
         }
@@ -158,14 +161,19 @@ class wechatCallbackapiTest
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $arr_config = self::pg_get_wx_config_all();
                 $contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
-                $contentStr .= "; access_token: " . $arr_config['access_token'];
+                //$contentStr .= "; access_token: " . $arr_config['access_token'];
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
                 $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
                 $contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
                 if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired!";
-                    $contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
+                    //$contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
+                    $tmp1 = '{"access_token":"ACCESS_TOKEN","expires_in":7200}';
+                    $tmp_str = json_decode($tmp1);
+                    $contentStr .= ", expires_in json: " . $tmp_str['expires_in'];
+                    $contentStr .= ", errcode json: " . $tmp_str['errcode'];
+                    //$contentStr .= json_decode(json)
                 } else {
                     $contentStr .= "; A.T is not expired.";
                 }
