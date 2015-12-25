@@ -171,8 +171,8 @@ class wechatCallbackapiTest
                 if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired!";
                     //$contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
-                    $tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
-                    //$tmp1 = self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']);
+                    //$tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
+                    $tmp1 = self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']);
                     $tmp_str = json_decode($tmp1);
                     if (array_key_exists("access_token", $tmp_str)) {
                         $contentStr .= ", new access_token json: " . $tmp_str->{'access_token'};
