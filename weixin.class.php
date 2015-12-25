@@ -3,6 +3,7 @@ class wechatCallbackapiTest
 {
     # constent var
     const wx_url_req_new_at = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'; //&appid=APPID&secret=APPSECRET';
+    const wx_url_upload_temp_pic = 'https://api.weixin.qq.com/cgi-bin/media/upload?';   //access_token=ACCESS_TOKEN&type=TYPE';
 
     # This function reads your DATABASE_URL config var and returns a connection
     # string suitable for pg_connect.
@@ -91,30 +92,84 @@ class wechatCallbackapiTest
     # If the stored access_token is still valid, use it; Or request a new one and store in DB.
     private function pg_get_wx_access_token() {
         $contentStr = date("Y-m-d H:i:s: ",time());
-        $arr_config = self::pg_get_wx_config_all();
-        //$contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
-        //$contentStr .= "; access_token: " . $arr_config['access_token'];
-        //$contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
-        //$contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
-        //$contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
-        //$contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
-        if ($arr_config['is_at_expired'] == 't') {
-            // at expired, get a new one
-            $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']));   //&appid=APPID&secret=APPSECRET';
-            
-            //$access_token = $at_resp['']
-            $ret = $at_resp;
-
-        } else {
-            $ret = $arr_config['access_token'];
+        //$arr_config = self::pg_get_wx_config_all();
+        $con = pg_connect(self::pg_conn_string());
+        if ($con) {
+            $result = pg_query($con, "SELECT *, extract(epoch from (now()-access_token_timestamp)) >= (access_token_expires_in - 30) as is_at_expired FROM wx_config");
+            if ($result) {
+                while($arr = pg_fetch_array($result)){
+                    if ($arr['id'] == 1) {
+                        // only id = 1 row is valid record.
+                        $ret = $arr;
+                        break;
+                    }
+                }
+                // check a.t. expired or not
+                if ($arr_config['is_at_expired'] == 't') {
+                    // at expired, get a new one
+                    $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']));   //&appid=APPID&secret=APPSECRET';
+                    if (!array_key_exists("errcode", $tmp_str)) {
+                        // got new access token
+                        $result1 = pg_query($con, "UPDATE wx_config SET access_token=" . $at_resp->{'access_token'} . ", access_token_timestamp=now(), access_token_expires_in=" . $at_resp->{'expires_in'} . " WHERE id=1");
+                        if ($result1) {
+                            // new a.t. saved to db
+                            $ret = $at_resp->{'access_token'};
+                        } else {
+                            echo '出错了(002)！！！';
+                            exit;
+                        }
+                    }
+                    //$access_token = $at_resp['']
+                    $ret = $at_resp;
+                } else {
+                    $ret = $arr_config['access_token'];
+                }
+                // should go to return
+            } else {
+                echo '出错了(002)！！！';
+                exit;
+            }
+         } else {
+            echo '出错了(003)！！！';
+            exit;
         }
+        pg_free_result($result);
+        pg_close($con);
         return $ret;
     }
 
     # Upload pic to weixin and get its media_id; Store the id into DB.
     # Note: the URL of the pic should be accessible from weixin!
-    private function pg_upload_wx_pic() {
+    private function curl_upload_wx_pic($valid_access_token, $pic_url) {
+        $ret = NULL;
         // TODO: 
+        if (isset($valid_access_token) && isset($pic_url)) {
+            // input valid
+            $access_token = self::pg_get_wx_access_token();
+            $pic_data = array("media" => "@pic_url");
+            $url = self::wx_url_upload_temp_pic . "access_token=" . $valid_access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $pic_data);
+            //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+            $result = curl_exec($ch);
+            curl_close($ch);
+            $result = json_decode($result, true);
+            //$result->url;//即为上传图片的URL;
+            if (array_key_exists("media_id", $result)) {
+                // got media_id
+                $ret = $result->{"media_id"};
+            }
+        } else {
+            // should not come here, input error
+            echo '出错了(201)！！！';
+            exit;
+        }
+        return $ret;
     }
 
     # Get IP:Port address for given id.
@@ -162,7 +217,7 @@ class wechatCallbackapiTest
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
                 $arr_config = self::pg_get_wx_config_all();
-                $contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
+                //$contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
                 //$contentStr .= "; access_token: " . $arr_config['access_token'];
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
@@ -199,7 +254,8 @@ class wechatCallbackapiTest
             {
                 $msgType = "image";
                 $textTpl = $picRpl;
-                $media_id = "msBC3R-gpoajjxMncY8s1Ryw26xqTB467RWlR3ta6cGFbZj-kU1UPBR4-hpLK7cJ";
+                //$media_id = "msBC3R-gpoajjxMncY8s1Ryw26xqTB467RWlR3ta6cGFbZj-kU1UPBR4-hpLK7cJ";
+                $media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 $contentStr = $media_id;
             } else if ($keyword == "!")
             {
