@@ -172,8 +172,8 @@ class wechatCallbackapiTest
                     $tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
                     $tmp_str = json_decode($tmp1);
                     $contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
-                    $contentStr .= ", var dump json: " . var_dump($tmp_str);
-                    $contentStr .= ", json lasterror: " . $json_errors[json_last_error()];
+                    //$contentStr .= ", var dump json: " . var_dump($tmp_str);
+                    //$contentStr .= ", json lasterror: " . $json_errors[json_last_error()];
                     //$contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
                     //$contentStr .= json_decode(json)
                 } else {
