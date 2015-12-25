@@ -101,7 +101,7 @@ class wechatCallbackapiTest
         if ($arr_config['is_at_expired'] == 't') {
             // at expired, get a new one
             $at_resp = json_decode(self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']));   //&appid=APPID&secret=APPSECRET';
-            //if ()
+            
             //$access_token = $at_resp['']
             $ret = $at_resp;
 
@@ -171,11 +171,20 @@ class wechatCallbackapiTest
                 if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired!";
                     //$contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
-                    //$tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
-                    $tmp1 = self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']);
+                    $tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
+                    //$tmp1 = self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']);
                     $tmp_str = json_decode($tmp1);
-                    $contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
-                    $contentStr .= ", var dump json: " . var_dump($tmp_str);
+                    if (array_key_exists("access_token", $tmp_str)) {
+                        $contentStr .= ", new access_token json: " . $tmp_str->{'access_token'};
+                    }
+                    if (array_key_exists("expires_in", $tmp_str)) {
+                        $contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
+                    }
+                    if (array_key_exists("errcode", $tmp_str)) {
+                        $contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
+                    }
+                    //$contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
+                    //$contentStr .= ", var dump json: " . var_dump($tmp_str);
                     //$contentStr .= ", json lasterror: " . $json_errors[json_last_error()];
                     //$contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
                     //$contentStr .= json_decode(json)
