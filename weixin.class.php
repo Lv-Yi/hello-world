@@ -127,7 +127,7 @@ class wechatCallbackapiTest
                     //$access_token = $at_resp['']
                     //$ret .= $at_resp;
                 } else {
-                    $ret .= $arr_config['access_token'];
+                    $ret = $arr_config['access_token'];
                 }
                 // should go to return
             } else {
