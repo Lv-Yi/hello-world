@@ -225,8 +225,7 @@ class wechatCallbackapiTest
                 $contentStr .= "; is_at_expired: " . $arr_config['is_at_expired'];
                 if ($arr_config['is_at_expired'] == 't') {
                     $contentStr .= "; A.T expired!";
-                    //$contentStr .= self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret'];
-                    //$tmp1 = '{"access_token":ACCESS_TOKEN,"expires_in":7200}';
+                    /*
                     $tmp1 = self::curl_get_https(self::wx_url_req_new_at . '&appid=' . $arr_config['app_id'] . '&secret=' . $arr_config['app_secret']);
                     $tmp_str = json_decode($tmp1);
                     if (array_key_exists("access_token", $tmp_str)) {
@@ -237,7 +236,8 @@ class wechatCallbackapiTest
                     }
                     if (array_key_exists("errcode", $tmp_str)) {
                         $contentStr .= ", errcode json: " . $tmp_str->{'errcode'};
-                    }
+                    }*/
+                    $contentStr .= " The new a.t. is " . self::pg_get_wx_access_token();
                     //$contentStr .= ", expires_in json: " . $tmp_str->{'expires_in'};
                     //$contentStr .= ", var dump json: " . var_dump($tmp_str);
                     //$contentStr .= ", json lasterror: " . $json_errors[json_last_error()];
