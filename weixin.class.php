@@ -145,14 +145,14 @@ class wechatCallbackapiTest
 
     # Upload pic to weixin and get its media_id; Store the id into DB.
     # Note: the URL of the pic should be accessible from weixin!
-    private function curl_upload_wx_pic($valid_access_token, $pic_url) {
+    private function curl_upload_wx_pic($pic_url) {
         $ret = NULL;
         // TODO: 
-        if (isset($valid_access_token) && isset($pic_url)) {
+        if (isset($pic_url)) {
             // input valid
             $access_token = self::pg_get_wx_access_token();
             $pic_data = array("media" => "@pic_url");
-            $url = self::wx_url_upload_temp_pic . "access_token=" . $valid_access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
+            $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
             //return $ret;
             $ch = curl_init();
@@ -242,7 +242,7 @@ class wechatCallbackapiTest
                 }*/
                 // try to upload pic
                 //$contentStr .= ", upload pic url: " . "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
-                $contentStr .= self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $contentStr .= self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
 
             } else if ($keyword == "~")
             {
