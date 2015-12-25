@@ -175,7 +175,7 @@ class wechatCallbackapiTest
             //获取url各相关信息 
             preg_match( '/http:\/\/([^\/\:]+(\:\d{1,5})?)(.*)/i', $url, $matches ); 
             if (!$matches) return false; 
-            return $matches[2];
+            return substr($matches[2], 1 );
             $sock = socket_create( AF_INET, SOCK_STREAM, SOL_TCP ); 
             if ( !@socket_connect( $sock, $matches[1], $matches[2] ? substr($matches[2], 1 ) : 80 ) ) { 
             return false; 
