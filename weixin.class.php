@@ -105,7 +105,7 @@ class wechatCallbackapiTest
                     }
                 }
                 // check a.t. expired or not
-                if ($arr_config['is_at_expired'] == 't') {
+                if ($ret['is_at_expired'] == 't') {
                     // at expired, get a new one
                     $ret = " pg_get_wx_access_token() : A.T expired!";
                     return $ret;
