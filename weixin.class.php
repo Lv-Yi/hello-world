@@ -153,6 +153,8 @@ class wechatCallbackapiTest
             $access_token = self::pg_get_wx_access_token();
             $pic_data = array("media" => "@pic_url");
             $url = self::wx_url_upload_temp_pic . "access_token=" . $valid_access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
+            $ret = $url;
+            return $ret;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -224,6 +226,7 @@ class wechatCallbackapiTest
                 $arr_config = self::pg_get_wx_config_all();
                 //$contentStr .= "id: ". $arr_config['id']. "; app_id: " . $arr_config['app_id'];
                 //$contentStr .= "; access_token: " . $arr_config['access_token'];
+                /*
                 $contentStr .= "; access_token_timestamp: " . $arr_config['access_token_timestamp'];
                 $contentStr .= "; access_token expires in: " . $arr_config['access_token_expires_in'];
                 $contentStr .= "; host_ext_ip: " . $arr_config['host_ext_ip'];
@@ -234,9 +237,10 @@ class wechatCallbackapiTest
                 } else {
                     $contentStr .= "; A.T is not expired.";
                     $contentStr .= " Still use the existing A.T. " . self::pg_get_wx_access_token();
-                }
+                }*/
                 // try to upload pic
-                $contentStr .= ", upload pic url: " . "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
+                //$contentStr .= ", upload pic url: " . "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
+                $contentStr .= self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
 
             } else if ($keyword == "~")
             {
