@@ -95,6 +95,7 @@ class wechatCallbackapiTest
         curl_setopt($ch, CURLOPT_URL, $http_url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT,60);
         $info = curl_exec($ch);
         // 关闭cURL资源，并且释放系统资源
         curl_close($ch);
