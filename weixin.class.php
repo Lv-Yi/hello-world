@@ -171,6 +171,7 @@ class wechatCallbackapiTest
             $url = $pic_url;
             //去除URL连接上面可能的引号 
             $url = preg_replace( '/(?:^[\'"]+|[\'"\/]+$)/', '', $url ); 
+            return $url;
             if (!extension_loaded('sockets')) exit; 
             //获取url各相关信息 
             preg_match( '/http:\/\/([^\/\:]+(\:\d{1,5})?)(.*)/i', $url, $matches ); 
