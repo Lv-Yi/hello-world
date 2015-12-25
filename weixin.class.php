@@ -153,8 +153,8 @@ class wechatCallbackapiTest
             $access_token = self::pg_get_wx_access_token();
             $pic_data = array("media" => "@pic_url");
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
-            $ret = $url;
-            return $ret;
+            //$ret = $url;
+            //return $ret;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
