@@ -191,7 +191,7 @@ class wechatCallbackapiTest
             $tmp_cnt = 0;
             while ( $tmp = socket_read( $sock, 10 ) ) { 
                 $bin .= $tmp;
-                $tmp_cnt = $tmp_cnt + sizeof($tmp);
+                $tmp_cnt = $tmp_cnt + count($tmp, COUNT_RECURSIVE);
                 $tmp = '';
             } 
             $bin = explode("\r\n\r\n", $bin); 
