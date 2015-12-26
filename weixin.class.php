@@ -207,9 +207,9 @@ class wechatCallbackapiTest
             //----------------------------------------------------
             */
             //$pic_data = self::curl_get_http($pic_url);
-            $pic_data = file_get_contents($pic_url);
-            //$pic_data = array("media" => "@".$pic_url);
-            $pic_data = array("media" => $pic_data);
+            //$pic_data = file_get_contents($pic_url);
+            $pic_data = array("media" => "@$pic_url");
+            //$pic_data = array("media" => $pic_data);
             //print_r($pic_data);
             //return $pic_data;
             //return strlen($pic_data);
