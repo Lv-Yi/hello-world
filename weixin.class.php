@@ -93,13 +93,18 @@ class wechatCallbackapiTest
         // get http content by curl
         //$info = "http_url: " . $http_url;        return $info;
         $ch = curl_init();
+        curl_setopt ($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_URL, $http_url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT,60000);
-        $info = curl_exec($ch);
+        //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //curl_setopt($ch, CURLOPT_TIMEOUT,60000);
+        ob_start();
+        curl_exec($ch);
+        $info = ob_get_contents();
+        ob_end_clean();
         // 关闭cURL资源，并且释放系统资源
         curl_close($ch);
+        // $return_code = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
         return $info;
     }
 
@@ -204,7 +209,7 @@ class wechatCallbackapiTest
             //$pic_data = array("media" => "@".$pic_url);
             $pic_data = self::curl_get_http($pic_url);
             //print_r($pic_data);
-            //return $pic_data;
+            return $pic_data;
             $access_token = self::pg_get_wx_access_token();
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
