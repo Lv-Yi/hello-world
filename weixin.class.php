@@ -165,7 +165,7 @@ class wechatCallbackapiTest
         // TODO: 
         if (isset($pic_url)) {
             // input valid
-            $access_token = self::pg_get_wx_access_token();
+            
 
             //====================================================
             $url = $pic_url;
@@ -174,11 +174,12 @@ class wechatCallbackapiTest
             if (!extension_loaded('sockets')) exit; 
             //获取url各相关信息 
             preg_match( '/http:\/\/([^\/\:]+(\:\d{1,5})?)(.*)/i', $url, $matches ); 
-            if (!$matches) return false; 
+            if (!$matches) exit;//return false; 
             //return substr($matches[2], 1 );
             $sock = socket_create( AF_INET, SOCK_STREAM, SOL_TCP ); 
             if ( !@socket_connect( $sock, $matches[1], $matches[2] ? substr($matches[2], 1 ) : 80 ) ) { 
-            return false; 
+                exit;
+                //return false; 
             } 
             //图片的相对地址 
             $msg = 'GET ' . $matches[3] . " HTTP/1.1\r\n"; 
@@ -186,10 +187,12 @@ class wechatCallbackapiTest
             $msg .= 'Host: ' . $matches[1] . "\r\n"; 
             $msg .= 'Connection: Close' . "\r\n\r\n"; 
             socket_write( $sock, $msg ); 
-            $bin = ''; 
+            $bin = '';
+            $tmp_cnt = 0;
             while ( $tmp = socket_read( $sock, 10 ) ) { 
-            $bin .= $tmp; 
-            $tmp = ''; 
+                $bin .= $tmp; 
+                $tmp = ''; 
+                $tmp_cnt = $tmp_cnt + 1;
             } 
             $bin = explode("\r\n\r\n", $bin); 
             $img = $bin[1]; 
@@ -200,10 +203,11 @@ class wechatCallbackapiTest
             //$pic_data = self::curl_get_http($pic_url);
             //print_r($pic_data);
             //return $pic_data;
+            $access_token = self::pg_get_wx_access_token();
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
-            $ret = count($pic_data);
-            return $ret;
+            //$ret = count($pic_data);
+            return $tmp_cnt;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
