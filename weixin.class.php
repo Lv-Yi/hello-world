@@ -168,6 +168,7 @@ class wechatCallbackapiTest
             
 
             //====================================================
+            /*
             $url = $pic_url;
             //去除URL连接上面可能的引号 
             $url = preg_replace( '/(?:^[\'"]+|[\'"\/]+$)/', '', $url ); 
@@ -199,15 +200,16 @@ class wechatCallbackapiTest
             @socket_close( $sock ); 
             $pic_data = $img;
             //----------------------------------------------------
-            //$pic_data = array("media" => "@".$pic_url);
+            */
+            $pic_data = array("media" => "@".$pic_url);
             //$pic_data = self::curl_get_http($pic_url);
             //print_r($pic_data);
             //return $pic_data;
             $access_token = self::pg_get_wx_access_token();
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
-            //$ret = count($pic_data);
-            return $tmp_cnt . ", " . count($bin[0], COUNT_RECURSIVE) . ", " . count($bin[1], COUNT_RECURSIVE);
+            $ret = count($pic_data, COUNT_RECURSIVE); return $ret;
+            //return $tmp_cnt . ", " . count($bin[0], COUNT_RECURSIVE) . ", " . count($bin[1], COUNT_RECURSIVE);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
