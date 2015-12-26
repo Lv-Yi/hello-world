@@ -190,9 +190,9 @@ class wechatCallbackapiTest
             $bin = '';
             $tmp_cnt = 0;
             while ( $tmp = socket_read( $sock, 10 ) ) { 
-                $bin .= $tmp; 
-                $tmp = ''; 
-                $tmp_cnt = $tmp_cnt + 1;
+                $bin .= $tmp;
+                $tmp_cnt = $tmp_cnt + sizeof($tmp);
+                $tmp = '';
             } 
             $bin = explode("\r\n\r\n", $bin); 
             $img = $bin[1]; 
