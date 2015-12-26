@@ -193,7 +193,7 @@ class wechatCallbackapiTest
                 $bin .= $tmp;
                 $tmp_cnt = $tmp_cnt + count($tmp, COUNT_RECURSIVE);
                 $tmp = '';
-            } 
+            }
             $bin = explode("\r\n\r\n", $bin); 
             $img = $bin[1]; 
             @socket_close( $sock ); 
@@ -207,7 +207,7 @@ class wechatCallbackapiTest
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
             //$ret = count($pic_data);
-            return $tmp_cnt;
+            return $tmp_cnt . ", " . count($bin, COUNT_RECURSIVE);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
