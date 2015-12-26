@@ -211,7 +211,7 @@ class wechatCallbackapiTest
             $pic_data = file_get_contents($pic_url);
             //print_r($pic_data);
             //return $pic_data;
-            return count($pic_data, COUNT_RECURSIVE);
+            return strlen($pic_data);
             $access_token = self::pg_get_wx_access_token();
             $url = self::wx_url_upload_temp_pic . "access_token=" . $access_token . "&type=image";   //access_token=ACCESS_TOKEN&type=TYPE';
             //$ret = $url;
@@ -304,8 +304,8 @@ class wechatCallbackapiTest
                 }*/
                 // try to upload pic
                 //$contentStr .= ", upload pic url: " . "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
-                $contentStr .= self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
-                //$contentStr .= self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
+                //$contentStr .= self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $contentStr .= self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
 
             } else if ($keyword == "~")
             {
