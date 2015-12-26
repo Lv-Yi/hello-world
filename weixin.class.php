@@ -220,6 +220,7 @@ class wechatCallbackapiTest
             //return $tmp_cnt . ", " . count($bin[0], COUNT_RECURSIVE) . ", " . count($bin[1], COUNT_RECURSIVE);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);
