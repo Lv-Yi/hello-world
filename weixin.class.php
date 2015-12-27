@@ -310,7 +310,7 @@ class wechatCallbackapiTest
                 //$contentStr .= self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
 
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-            } else if ($keyword == "~1")
+            } else if ($keyword == "#1")
             {
                 $msgType = "image"; $textTpl = $picRpl;
                 //$msgType = "text";
@@ -322,7 +322,7 @@ class wechatCallbackapiTest
                 $contentStr = $media_id1;
 
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-            } else if ($keyword == "~2")
+            } else if ($keyword == "#2")
             {
                 $msgType = "image"; $textTpl = $picRpl;
                 //$msgType = "text";
