@@ -210,7 +210,7 @@ class wechatCallbackapiTest
 
             // test: curl remote jpg file and save to local file first
             $pic_data = file_get_contents($pic_url);
-            $fp = fopen('shot1.jpg','w+');
+            $fp = fopen('shot.jpg','w+');
             fwrite($fp,$pic_data);
             $save_file = realpath('shot.jpg');
             return $save_file;
@@ -236,8 +236,8 @@ class wechatCallbackapiTest
             //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             $result = curl_exec($ch);
             curl_close($ch);
-            //$ret = $result;
-            //return $ret;
+            $ret = $result;
+            return $ret;
             $result = json_decode($result, true);
             //$result->url;//即为上传图片的URL;
             if (array_key_exists("media_id", $result)) {
@@ -246,6 +246,7 @@ class wechatCallbackapiTest
             } else {
                 $ret = "invalid media_id";
             }
+            unlink("shot.jpg");
         } else {
             // should not come here, input error
             echo '出错了(201)！！！';
