@@ -210,7 +210,7 @@ class wechatCallbackapiTest
 
             // test: curl remote jpg file and save to local file first
             $pic_data = file_get_contents($pic_url);
-            $fp = fopen('shot.jpg','w');
+            $fp = fopen('shot.jpg','w+');
             fwrite($fp,$pic_data);
             $save_file = realpath('shot.jpg');
             $pic_data = array("media" => "@".$save_file);
