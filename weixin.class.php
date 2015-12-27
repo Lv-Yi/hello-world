@@ -339,12 +339,12 @@ class wechatCallbackapiTest
                 $arr_config = self::pg_get_wx_config_all();
                 $time_text = date("Y-m-d H:i:s: ",time());
                 // news
-                $title1 = "摄像头#1 - " . $time_text;
+                $title1 = "摄像头#1";// - " . $time_text;
                 $description1 = "时间:" . $time_text . " 摄像头#1:" . "http://".$arr_config['host_ext_ip'].":8112";
                 $picurl1 = "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
                 $url1 = "http://".$arr_config['host_ext_ip'].":8112/";
 
-                $title2 = "摄像头#2 - " . $time_text;
+                $title2 = "摄像头#2";// - " . $time_text;
                 $description2 = "时间:" . $time_text . " 摄像头#2:" . "http://".$arr_config['host_ext_ip'].":8151";
                 $picurl2 = "http://".$arr_config['host_ext_ip'].":8151/shot.jpg";
                 $url2 = "http://".$arr_config['host_ext_ip'].":8151/";
