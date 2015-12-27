@@ -209,11 +209,13 @@ class wechatCallbackapiTest
             //$pic_data = self::curl_get_http($pic_url);
 
             // test: curl remote jpg file and save to local file first
-            $pic_data = file_get_contents($pic_url);
+            $pic_tmp_data = file_get_contents($pic_url);
+            $ret .= strlen($pic_tmp_data);
             $fp = fopen('shot.jpg','w+');
-            fwrite($fp,$pic_data);
+            fwrite($fp,$pic_tmp_data);
             fclose($fp);
             $save_file = realpath('shot.jpg');
+            $ret .= $save_file;
             //return $save_file;
             $pic_data = array("media" => "@".$save_file);
             //$pic_data['media'] = new CurlFile(@pic_url, 'image/jpg');
@@ -238,7 +240,7 @@ class wechatCallbackapiTest
             //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             $result = curl_exec($ch);
             curl_close($ch);
-            $ret = $result;
+            $ret .= $result;
             return $ret;
             $result = json_decode($result, true);
             //$result->url;//即为上传图片的URL;
