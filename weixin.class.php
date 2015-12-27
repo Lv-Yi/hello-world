@@ -212,8 +212,9 @@ class wechatCallbackapiTest
             $pic_data = file_get_contents($pic_url);
             $fp = fopen('shot.jpg','w+');
             fwrite($fp,$pic_data);
+            fclose($fp);
             $save_file = realpath('shot.jpg');
-            return $save_file;
+            //return $save_file;
             $pic_data = array("media" => "@".$save_file);
             //$pic_data['media'] = new CurlFile(@pic_url, 'image/jpg');
             //$pic_data = array("media" => $pic_data);
