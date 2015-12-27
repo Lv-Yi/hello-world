@@ -217,8 +217,8 @@ class wechatCallbackapiTest
             $save_file = realpath('shot.jpg');
             $ret .= $save_file;
             //return $ret;
-            $pic_data = array("media" => "@".$save_file);
-            //$pic_data['media'] = new CurlFile(@pic_url, 'image/jpg');
+            //$pic_data = array("media" => "@".$save_file); // deprecated & deleted in PHP 5.6
+            $pic_data['media'] = new CurlFile($save_file);
             //$pic_data['media'] = new CurlFile($save_file, 'image/jpg');
             //$pic_data = array("media" => $pic_data);
             //print_r($pic_data);
