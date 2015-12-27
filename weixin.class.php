@@ -235,13 +235,15 @@ class wechatCallbackapiTest
             //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             $result = curl_exec($ch);
             curl_close($ch);
-            $ret = $result;
-            return $ret;
+            //$ret = $result;
+            //return $ret;
             $result = json_decode($result, true);
             //$result->url;//即为上传图片的URL;
             if (array_key_exists("media_id", $result)) {
                 // got media_id
                 $ret = $result->{"media_id"};
+            } else {
+                $ret = "invalid media_id";
             }
         } else {
             // should not come here, input error
@@ -320,8 +322,8 @@ class wechatCallbackapiTest
                 $msgType = "image";
                 $textTpl = $picRpl;
                 $arr_config = self::pg_get_wx_config_all();
-                //$media_id = "sJprBGEVFXyLzTFsnXiGMOCAXijPg8MXuUJFfAe3MKwN2NqXeSvCrY3ZX9ctdgDG";
-                $media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $media_id = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
+                //$media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 $contentStr = $media_id;
             } else if ($keyword == "!")
             {
