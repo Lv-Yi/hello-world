@@ -169,45 +169,6 @@ class wechatCallbackapiTest
         $ret = NULL;
         // TODO: 
         if (isset($pic_url)) {
-            // input valid
-            
-
-            //====================================================
-            /*
-            $url = $pic_url;
-            //去除URL连接上面可能的引号 
-            $url = preg_replace( '/(?:^[\'"]+|[\'"\/]+$)/', '', $url ); 
-            if (!extension_loaded('sockets')) exit; 
-            //获取url各相关信息 
-            preg_match( '/http:\/\/([^\/\:]+(\:\d{1,5})?)(.*)/i', $url, $matches ); 
-            if (!$matches) exit;//return false; 
-            //return substr($matches[2], 1 );
-            $sock = socket_create( AF_INET, SOCK_STREAM, SOL_TCP ); 
-            if ( !@socket_connect( $sock, $matches[1], $matches[2] ? substr($matches[2], 1 ) : 80 ) ) { 
-                exit;
-                //return false; 
-            } 
-            //图片的相对地址 
-            $msg = 'GET ' . $matches[3] . " HTTP/1.1\r\n"; 
-            //主机名称 
-            $msg .= 'Host: ' . $matches[1] . "\r\n"; 
-            $msg .= 'Connection: Close' . "\r\n\r\n"; 
-            socket_write( $sock, $msg ); 
-            $bin = '';
-            $tmp_cnt = 0;
-            while ( $tmp = socket_read( $sock, 10 ) ) { 
-                $bin .= $tmp;
-                $tmp_cnt = $tmp_cnt + count($tmp, COUNT_RECURSIVE);
-                $tmp = '';
-            }
-            $bin = explode("\r\n\r\n", $bin); 
-            $img = $bin[1]; 
-            @socket_close( $sock ); 
-            $pic_data = $img;
-            //----------------------------------------------------
-            */
-            //$pic_data = self::curl_get_http($pic_url);
-
             // test: curl remote jpg file and save to local file first
             $pic_tmp_data = file_get_contents($pic_url);
             $ret .= strlen($pic_tmp_data);
@@ -215,8 +176,7 @@ class wechatCallbackapiTest
             fwrite($fp,$pic_tmp_data);
             fclose($fp);
             $save_file = realpath('shot.jpg');
-            $ret .= $save_file;
-            //return $ret;
+            //$ret .= $save_file;
             //$pic_data = array("media" => "@".$save_file); // deprecated & deleted in PHP 5.6
             //$pic_data['media'] = new CurlFile($save_file);
             $pic_data['media'] = new CurlFile($save_file, 'image/jpg');
@@ -245,11 +205,12 @@ class wechatCallbackapiTest
                 $ret .= ". curl_exec() failed!";
             }
             //return $ret;
-            $result = json_decode($result, true);
+            $result1 = json_decode($result);
             //$result->url;//即为上传图片的URL;
-            if (array_key_exists("media_id", $result)) {
+            if (array_key_exists("media_id", $result1)) {
+                return " got media id: " . $result1->{"media_id"};
                 // got media_id
-                $ret = $result->{"media_id"};
+                $ret = $result1->{"media_id"};
             } else {
                 $ret = "invalid media_id";
             }
