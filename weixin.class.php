@@ -248,7 +248,7 @@ class wechatCallbackapiTest
             } else {
                 $ret = "invalid media_id";
             }
-            unlink("shot.jpg");
+            //unlink("shot.jpg");
         } else {
             // should not come here, input error
             echo '出错了(201)！！！';
