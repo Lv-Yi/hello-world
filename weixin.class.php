@@ -319,10 +319,11 @@ class wechatCallbackapiTest
             } else if ($keyword == "?")
             {
                 $arr_config = self::pg_get_wx_config_all();
+                $time_text = date("Y-m-d H:i:s: ",time());
                 // news
-                $title1 = "抓拍" . date("Y-m-d H:i:s: ",time());
-                $description1 = "时间:" . date("Y-m-d H:i:s: ",time()) . " 摄像头@" . "http://".$arr_config['host_ext_ip'].":8112";
-                $picurl1 = self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $title1 = "抓拍" . $time_text;
+                $description1 = "时间:" . $time_text . " 摄像头@" . "http://".$arr_config['host_ext_ip'].":8112";
+                $picurl1 = "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
                 $url1 = $picurl1;
 
                 $resultStr = sprintf($newsRpl, $fromUsername, $toUsername, $time, $title1, $description1, $picurl1, $url1);
