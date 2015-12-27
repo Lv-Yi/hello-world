@@ -258,8 +258,23 @@ class wechatCallbackapiTest
                        <MediaId><![CDATA[%s]]></MediaId>
                        </Image>
                        </xml>";
+            $newsRpl = "<xml>
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[news]]></MsgType>
+                        <ArticleCount>1</ArticleCount>
+                        <Articles>
+                        <item>
+                        <Title><![CDATA[%s]]></Title> 
+                        <Description><![CDATA[%s]]></Description>
+                        <PicUrl><![CDATA[%s]]></PicUrl>
+                        <Url><![CDATA[%s]]></Url>
+                        </item>
+                        </Articles>
+                        </xml>";
 
-            if($keyword == "?")
+            if($keyword == "$")
             {
                 $msgType = "text";
                 $contentStr = date("Y-m-d H:i:s: ",time());
@@ -288,6 +303,7 @@ class wechatCallbackapiTest
                 $contentStr .= self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 //$contentStr .= self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
 
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             } else if ($keyword == "~")
             {
                 $msgType = "image"; $textTpl = $picRpl;
@@ -298,6 +314,18 @@ class wechatCallbackapiTest
                 //$media_id1 = "ODm6iMxxqoKUyurCpDWB_2zVY3lR4JW4EXbuidaBX6I1MndKyfT2zPXTa1vUcC6Y";
                 //$contentStr .= "media id: " . $media_id1;
                 $contentStr = $media_id1;
+
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+            } else if ($keyword == "?")
+            {
+                $arr_config = self::pg_get_wx_config_all();
+                // news
+                $title1 = "抓拍" . $time;
+                $description1 = "时间:" . $time . " 摄像头@" . "http://".$arr_config['host_ext_ip'].":8112";
+                $picurl1 = self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $url1 = $picurl1;
+
+                $resultStr = sprintf($newsRpl, $fromUsername, $toUsername, $time, $title1, $description1, $picurl1, $url1);
             } else if ($keyword == "!")
             {
                 $msgType = "text";
@@ -305,8 +333,10 @@ class wechatCallbackapiTest
                 $arr_config = self::pg_get_wx_config_all();
                 //$contentStr .= self::pg_get_temperature();
                 $contentStr .= "http://".$arr_config['host_ext_ip'].":8112/";
+
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             } 
-            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+            
             echo $resultStr;
             return;
         }else{
