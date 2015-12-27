@@ -312,6 +312,7 @@ class wechatCallbackapiTest
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             } else if ($keyword == "#1")
             {
+                echo "";    // to avoid wx server resend after 5sec timeout
                 $msgType = "image"; $textTpl = $picRpl;
                 //$msgType = "text";
                 //$media_id1 = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
@@ -324,6 +325,7 @@ class wechatCallbackapiTest
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             } else if ($keyword == "#2")
             {
+                echo "";    // to avoid wx server resend after 5sec timeout
                 $msgType = "image"; $textTpl = $picRpl;
                 //$msgType = "text";
                 //$media_id1 = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
