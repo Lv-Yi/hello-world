@@ -218,8 +218,8 @@ class wechatCallbackapiTest
             $ret .= $save_file;
             //return $ret;
             //$pic_data = array("media" => "@".$save_file); // deprecated & deleted in PHP 5.6
-            $pic_data['media'] = new CurlFile($save_file);
-            //$pic_data['media'] = new CurlFile($save_file, 'image/jpg');
+            //$pic_data['media'] = new CurlFile($save_file);
+            $pic_data['media'] = new CurlFile($save_file, 'image/jpg');
             //$pic_data = array("media" => $pic_data);
             //print_r($pic_data);
             //return $pic_data;
@@ -231,7 +231,7 @@ class wechatCallbackapiTest
             //return $tmp_cnt . ", " . count($bin[0], COUNT_RECURSIVE) . ", " . count($bin[1], COUNT_RECURSIVE);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+            //curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -323,16 +323,16 @@ class wechatCallbackapiTest
                 }*/
                 // try to upload pic
                 //$contentStr .= ", upload pic url: " . "http://".$arr_config['host_ext_ip'].":8112/shot.jpg";
-                $contentStr .= self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
-                //$contentStr .= self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
+                //$contentStr .= self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                $contentStr .= self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
 
             } else if ($keyword == "~")
             {
                 $msgType = "image";
                 $textTpl = $picRpl;
                 //$arr_config = self::pg_get_wx_config_all();
-                $media_id = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
-                //$media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                //$media_id = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
+                $media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 $contentStr = $media_id;
             } else if ($keyword == "!")
             {
