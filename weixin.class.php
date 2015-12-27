@@ -216,7 +216,7 @@ class wechatCallbackapiTest
             fclose($fp);
             $save_file = realpath('shot.jpg');
             $ret .= $save_file;
-            return $ret;
+            //return $ret;
             $pic_data = array("media" => "@".$save_file);
             //$pic_data['media'] = new CurlFile(@pic_url, 'image/jpg');
             //$pic_data['media'] = new CurlFile($save_file, 'image/jpg');
@@ -241,6 +241,9 @@ class wechatCallbackapiTest
             $result = curl_exec($ch);
             curl_close($ch);
             $ret .= $result;
+            if ($result == FALSE) {
+                $ret .= ". curl_exec() failed!";
+            }
             return $ret;
             $result = json_decode($result, true);
             //$result->url;//即为上传图片的URL;
