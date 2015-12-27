@@ -296,8 +296,8 @@ class wechatCallbackapiTest
                 //$arr_config = self::pg_get_wx_config_all();
                 //$media_id1 = self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 //$media_id1 = "ODm6iMxxqoKUyurCpDWB_2zVY3lR4JW4EXbuidaBX6I1MndKyfT2zPXTa1vUcC6Y";
-                $contentStr .= "media id: " . $media_id1;
-                //$contentStr .= $media_id1;
+                //$contentStr .= "media id: " . $media_id1;
+                $contentStr = $media_id1;
             } else if ($keyword == "!")
             {
                 $msgType = "text";
