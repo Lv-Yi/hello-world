@@ -292,8 +292,8 @@ class wechatCallbackapiTest
                 $msgType = "image"; $textTpl = $picRpl;
                 //$msgType = "text";
                 //$arr_config = self::pg_get_wx_config_all();
-                $media_id1 = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
-                //$media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
+                //$media_id1 = self::curl_upload_wx_pic("http://ooopic.assetsdelivery.com/168nwm/carodi/carodi1011/carodi101100034.jpg");
+                $media_id = self::curl_upload_wx_pic(self::pg_get_wx_access_token(), "http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 //$media_id = "ODm6iMxxqoKUyurCpDWB_2zVY3lR4JW4EXbuidaBX6I1MndKyfT2zPXTa1vUcC6Y";
                 //$contentStr .= "media id: " . $media_id1;
                 $contentStr .= $media_id1;
