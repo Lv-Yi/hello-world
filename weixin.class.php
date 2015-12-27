@@ -320,8 +320,8 @@ class wechatCallbackapiTest
             {
                 $arr_config = self::pg_get_wx_config_all();
                 // news
-                $title1 = "抓拍" . $time;
-                $description1 = "时间:" . $time . " 摄像头@" . "http://".$arr_config['host_ext_ip'].":8112";
+                $title1 = "抓拍" . date("Y-m-d H:i:s: ",time());
+                $description1 = "时间:" . date("Y-m-d H:i:s: ",time()) . " 摄像头@" . "http://".$arr_config['host_ext_ip'].":8112";
                 $picurl1 = self::curl_upload_wx_pic("http://".$arr_config['host_ext_ip'].":8112/shot.jpg");
                 $url1 = $picurl1;
 
