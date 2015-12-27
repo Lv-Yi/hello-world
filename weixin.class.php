@@ -244,7 +244,7 @@ class wechatCallbackapiTest
             if ($result == FALSE) {
                 $ret .= ". curl_exec() failed!";
             }
-            return $ret;
+            //return $ret;
             $result = json_decode($result, true);
             //$result->url;//即为上传图片的URL;
             if (array_key_exists("media_id", $result)) {
