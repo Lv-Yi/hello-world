@@ -97,7 +97,7 @@ class wechatCallbackapiTest
         curl_setopt($ch, CURLOPT_URL, $http_url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //curl_setopt($ch, CURLOPT_TIMEOUT,60000);
+        curl_setopt($ch, CURLOPT_TIMEOUT,60);
         ob_start();
         curl_exec($ch);
         $info = ob_get_contents();
@@ -195,6 +195,7 @@ class wechatCallbackapiTest
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_TIMEOUT,60);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $pic_data);
             //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
